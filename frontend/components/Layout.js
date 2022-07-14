@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-// import NavBar from "./Navbar";
+import NavBar from "./Navbar";
 import Footer from "./Footer";
 import {initGA, logPageView} from "../utils/GoogleAnalytics";
 
@@ -13,7 +13,7 @@ const Layout = ({children}) => {
   }, []);
 
   return <div>
-    {/* <NavBar /> */}
+    <NavBar />
     {children}
     <Footer />
   </div>;
