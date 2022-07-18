@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import PageHeader from "../components/Header";
+import PageHeader from "../components/header";
 import styles from "../styles/joinUs.module.css";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Slideshow from "../components/QuotesSlideshow.js";

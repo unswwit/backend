@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import PageHeader from "../../components/Header";
+import PageHeader from "../../components/header";
 import Chip from "@material-ui/core/Chip";
 import styles from "../../styles/Podcast.module.css";
 import EpisodeTemplate from "../../components/EpisodeTemplate";
@@ -11,6 +11,9 @@ import humps from "humps";
 import { useStyles, links, categories } from "../../data/podcastData";
 import Image from "next/image";
 import Link from "next/link";
+import moment from "moment";
+import useContentfulPodcasts from "../api/contentful-podcast";
+const { getPodcastEpisodes } = useContentfulPodcasts();
 
 // TO UNCOMMENT WHEN REACH > 9 PODCASTS
 // import PaginationComp from "../components/Pagination";
@@ -41,14 +44,10 @@ const Podcast = () => {
   // input: podcasts data from google sheets
   // output: array of dictionaries containing podcasts data
   const fetchPodcastEpisodes = async () => {
-    const res = await axios.get(
-      "https://wit-database.herokuapp.com/podcast-episodes"
-    );
-    const unsorted = humps.camelizeKeys(res.data);
-    const sortedEpisodes = unsorted.reverse();
-    setContent(sortedEpisodes);
-    // setCurrentPosts(sortedEpisodes);
-    setSelectedPosts(sortedEpisodes);
+    const res = await getPodcastEpisodes();
+    const allEpisodes = humps.camelizeKeys(res);
+    setContent(allEpisodes);
+    setSelectedPosts(allEpisodes);
     setLoading(false);
     setSourceLoading(false);
   };
@@ -79,7 +78,7 @@ const Podcast = () => {
     const filteredContent = content.filter(
       (picture) =>
         selectedCategory === "All" ||
-        picture.category.split(",").includes(selectedCategory)
+        picture.category.includes(selectedCategory)
     );
     searchPodcasts(filteredContent, searchTerm);
   };
@@ -153,9 +152,10 @@ const Podcast = () => {
               <div id={styles.platformContainer}>
                 {Object.keys(links).map((link, index) => {
                   return (
-                    <Link href={links[link][1]}>
+                    <Link href={links[link][1]} key={index}>
                       <a className={styles.platformLogos}>
-                        <a className={styles.a}
+                        <a
+                          className={styles.a}
                           key={index}
                           target="_blank"
                           rel="noopener noreferrer"
@@ -203,7 +203,7 @@ const Podcast = () => {
                 })}
             </div>
           </div>
-          {/* End of blog categories */}
+          {/* End of podcast categories */}
 
           {/* Start of search bar */}
           <div className={styles.searchBar}>
@@ -242,8 +242,8 @@ const Podcast = () => {
                   key={index}
                   episodeNo={episode.episodeNo}
                   title={episode.title}
-                  cover={`podcast-covers/${episode.img}`}
-                  date={episode.date}
+                  cover={episode.imgUrl}
+                  date={moment(episode.date).format("MMMM DD, YYYY")}
                   description={episode.description}
                   episode={episode}
                 />

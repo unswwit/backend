@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "../../styles/Marketing.module.css";
-import PageHeader from "../../components/Header";
+import PageHeader from "../../components/header";
 import Chip from "@material-ui/core/Chip";
 import Initiative from "../../components/Initiative";
 import CircularProgress from "@material-ui/core/CircularProgress";
