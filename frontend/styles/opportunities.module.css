@@ -1,0 +1,210 @@
+/*-------------------------------Opportunities Preview-----------------------------*/
+
+.head {
+  font-family: "Montserrat", sans-serif;
+  font-size: 11pt;
+  font-weight: 400;
+  color: var(--general-text);
+  text-align: justify;
+}
+
+.link {
+  color: var(--general-text);
+  font-weight: 500;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.oppBody {
+  max-width: 70%;
+  margin: 0 auto;
+  margin-bottom: 10%;
+  margin-top: 4%;
+}
+
+.oppLookout {
+  text-align: center;
+  font-family: "Montserrat", sans-serif;
+  margin: 0 auto;
+  padding: 100px 0;
+  max-width: 70%;
+}
+
+.lookoutSize {
+  font-size: 12pt;
+}
+
+.oppGridContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  grid-gap: 50px;
+  margin-top: 50px;
+}
+
+.oppGridItems {
+  display: block;
+  position: relative;
+  -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.oppDesc {
+  margin: 50px 30px;
+  padding: 0;
+}
+
+.oppTypeAndLocation {
+  color: var(--yellow);
+  font-family: "Montserrat", sans-serif;
+  letter-spacing: 1pt;
+  margin: 0;
+  padding: 0;
+  padding-bottom: 5px;
+  text-align: center;
+  font-weight: 500;
+  font-size: 10pt;
+  font-weight: 600;
+}
+
+.oppSummary {
+  color: var(--general-text);
+  letter-spacing: 0.05em;
+  font-size: 9pt;
+  font-family: "Montserrat", sans-serif;
+  padding: 0;
+  padding-bottom: 5px;
+  margin-top: 10px;
+  text-align: justify;
+}
+
+.oppImg {
+  object-fit: scale-down;
+  display: block;
+  margin: 0 auto;
+  width: 250px;
+  height: 150px;
+  transform: translate(0%, 20%);
+  background-color: white;
+  -webkit-box-shadow: 5px 0px 5px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: 5px 0px 5px 0 rgba(0, 0, 0, 0.3);
+  padding: 10px;
+}
+
+.imageContainer {
+  background-color: black;
+}
+
+.jobPosition {
+  color: black;
+  font-size: 14pt;
+  font-family: "Playfair Display", serif;
+  font-weight: 500;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+/*--- Hover animations ---*/
+.darkOverlay {
+  width: 100%;
+  background-color: black;
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  height: 100%;
+  z-index: 1;
+  transition: opacity 0.5s ease;
+}
+
+.oppGridContainer .darkOverlay:hover {
+  opacity: 0.04;
+}
+
+.oppGridContainer a:hover .oppImg {
+  -ms-transform: scale(1.05); /* IE 9 */
+  -webkit-transform: scale(1.05); /* Safari 3-8 */
+  transform: scale(1.05) translate(0%, 20%);
+  transition: transform 0.5s ease;
+}
+
+/*--- Dark mode ---*/
+@media (prefers-color-scheme: dark) {
+  .jobPosition,
+  .oppBody,
+  .oppSummary {
+    color: white;
+  }
+  .oppGridItems {
+    background-color: var(--dark-slate-grey);
+  }
+  .link:hover {
+    color: white;
+  }
+  .darkOverlay {
+    background-color: white;
+  }
+}
+
+/*---------------------------Loading Sign--------------------------*/
+#oppLoading {
+  color: var(--yellow);
+  margin-top: 5%;
+  margin-bottom: 5%;
+}
+
+#oppLoadingContainer {
+  display: flex;
+  justify-content: center;
+}
+
+/*-------------------------------Responsive mobile design------------------------------*/
+@media only screen and (max-width: 750px) {
+  .head,
+  .lookoutSize {
+    font-size: 10pt;
+  }
+
+  .oppLookout {
+    padding: 50px 0;
+  }
+}
+
+@media only screen and (max-width: 640px) {
+  .oppBody,
+  .oppLookout {
+    max-width: 90%;
+  }
+
+  .head {
+    max-width: 80%;
+    margin: 0 auto;
+  }
+
+  .oppGridContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .oppBody {
+    max-width: 100%;
+  }
+
+  .oppGridContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
+
+  .lookoutSize {
+    font-size: 9pt;
+  }
+}
+
+@media only screen and (max-width: 350px) {
+  .oppImg {
+    width: 250px;
+    height: 150px;
+  }
+}
