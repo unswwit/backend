@@ -17,6 +17,9 @@ import {
   valueToYear,
 } from "../../data/marketingData";
 
+import useContentfulMarketingArchives from "../api/contentful-marketing-archives";
+const { getMarketingArchives } = useContentfulMarketingArchives();
+
 const MarketingContent = () => {
   const classes = useStyles();
   const [content, setContent] = useState([]);
@@ -42,37 +45,34 @@ const MarketingContent = () => {
     setCurrentPage("All");
   };
 
-  // scroll to top on load
-  useEffect(() => window.scrollTo(0, 0), []);
-
   // get marketing archives
   // input: marketing archives data from google sheets
   // output: array of dictionaries containing marketing archives data
-  useEffect(() => {
-    setLoading(true);
-    const fetchMarketingArchive = async () => {
-      const res = await axios.get(
-        "https://wit-database.herokuapp.com/marketing-archives"
-      );
-      const tempContent = humps
-        .camelizeKeys(res.data)
-        .reverse()
-        .filter((item) => item.year === Number(year));
-      setContent(tempContent);
-      setCurrentPosts(tempContent.slice(0, postsPerPage));
-      setSelectedPosts(tempContent);
-      setLoading(false);
-      setSourceLoading(false);
-    };
+  const fetchMarketingArchives = async () => {
+    const res = await getMarketingArchives();
+    const tempContent = humps.camelizeKeys(res);
+    console.log(res);
+    setContent(tempContent);
+    setCurrentPosts(tempContent.slice(0, postsPerPage));
+    setSelectedPosts(tempContent);
+    setLoading(false);
+    setSourceLoading(false);
+  };
 
-    fetchMarketingArchive().catch((error) =>
+  // scroll to top on load
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    // load marketing previews
+    fetchMarketingArchives().catch((error) =>
       // error handling
       console.error(error)
     );
-  }, [year]);
+  }, []);
+
 
   // marketing archive message
   useEffect(() => {
+    // no posts
     if (currentPosts.length === 0 && loading === false) {
       setEmptyCategory(true);
       console.error = () => {};
@@ -86,7 +86,7 @@ const MarketingContent = () => {
     const filteredContent = content.filter(
       (picture) =>
         selectedCategory === "All" ||
-        picture.category.split(",").includes(selectedCategory)
+        picture.category.includes(selectedCategory)
     );
     setSelectedPosts(filteredContent);
     setCurrentPosts(filteredContent.slice(0, postsPerPage));
@@ -176,7 +176,7 @@ const MarketingContent = () => {
                     thickness={5}
                     id={styles.contentLoading}
                   />
-                )}
+                )}                                        j
               </div>
 
               {/*Image collage*/}
@@ -188,7 +188,7 @@ const MarketingContent = () => {
                         <Initiative
                           key={index}
                           fb={content.link}
-                          imgUrl={`/initiatives/${year}/${content.img}`}
+                          imgUrl={content.imgUrl}
                           alt={content.label}
                           date={content.date}
                         />
@@ -205,7 +205,7 @@ const MarketingContent = () => {
                         <Initiative
                           key={index}
                           fb={content.link}
-                          imgUrl={`/initiatives/${year}/${content.img}`}
+                          imgUrl={content.imgUrl}
                           alt={content.label}
                           date={content.date}
                         />
